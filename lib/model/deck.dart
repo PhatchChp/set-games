@@ -11,7 +11,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.capsule,
     1,
     Shading.semiFill,
@@ -35,7 +35,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.capsule,
     2,
     Shading.semiFill,
@@ -59,7 +59,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.capsule,
     3,
     Shading.semiFill,
@@ -82,7 +82,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.capsule,
     1,
     Shading.semiFill,
@@ -104,7 +104,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.capsule,
     2,
     Shading.semiFill,
@@ -126,7 +126,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.capsule,
     3,
     Shading.semiFill,
@@ -149,7 +149,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.capsule,
     1,
     Shading.semiFill,
@@ -171,7 +171,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.capsule,
     2,
     Shading.semiFill,
@@ -193,7 +193,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.capsule,
     3,
     Shading.semiFill,
@@ -217,7 +217,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.triangle,
     1,
     Shading.semiFill,
@@ -239,7 +239,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.triangle,
     2,
     Shading.semiFill,
@@ -261,7 +261,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.triangle,
     3,
     Shading.semiFill,
@@ -284,7 +284,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.triangle,
     1,
     Shading.semiFill,
@@ -306,7 +306,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.triangle,
     2,
     Shading.semiFill,
@@ -328,7 +328,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.triangle,
     3,
     Shading.semiFill,
@@ -351,7 +351,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.triangle,
     1,
     Shading.semiFill,
@@ -373,7 +373,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.triangle,
     2,
     Shading.semiFill,
@@ -395,7 +395,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.triangle,
     3,
     Shading.semiFill,
@@ -419,7 +419,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.diamonds,
     1,
     Shading.semiFill,
@@ -441,7 +441,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.diamonds,
     2,
     Shading.semiFill,
@@ -463,7 +463,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.redSemi,
+    CardColors.red,
     Shape.diamonds,
     3,
     Shading.semiFill,
@@ -486,7 +486,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.diamonds,
     1,
     Shading.semiFill,
@@ -508,7 +508,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.diamonds,
     2,
     Shading.semiFill,
@@ -530,7 +530,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.greenSemi,
+    CardColors.green,
     Shape.diamonds,
     3,
     Shading.semiFill,
@@ -553,7 +553,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.diamonds,
     1,
     Shading.semiFill,
@@ -575,7 +575,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.diamonds,
     2,
     Shading.semiFill,
@@ -597,7 +597,7 @@ List<GamesCard> deck = [
     false,
   ),
   GamesCard(
-    CardColors.blueSemi,
+    CardColors.blue,
     Shape.diamonds,
     3,
     Shading.semiFill,

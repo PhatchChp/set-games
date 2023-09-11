@@ -22,7 +22,9 @@ class ShapeWidget extends StatelessWidget {
                       width: 100,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: color,
+                        color: shading == Shading.semiFill
+                            ? color.withOpacity(0.5)
+                            : color,
                       ),
                     ),
                   ),
@@ -41,7 +43,9 @@ class ShapeWidget extends StatelessWidget {
             : ClipPath(
                 clipper: TriangleShape(),
                 child: Container(
-                  color: color,
+                  color: shading == Shading.semiFill
+                      ? color.withOpacity(0.5)
+                      : color,
                   width: 100,
                   height: 50,
                 ),
@@ -57,7 +61,9 @@ class ShapeWidget extends StatelessWidget {
                       width: 100,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: color,
+                        color: shading == Shading.semiFill
+                            ? color.withOpacity(0.5)
+                            : color,
                       ),
                     ),
                   ),
@@ -76,7 +82,9 @@ class ShapeWidget extends StatelessWidget {
             : ClipPath(
                 clipper: DiamondShape(),
                 child: Container(
-                  color: color,
+                  color: shading == Shading.semiFill
+                      ? color.withOpacity(0.5)
+                      : color,
                   width: 100,
                   height: 50,
                 ),
@@ -89,7 +97,9 @@ class ShapeWidget extends StatelessWidget {
                   ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
-                        color: color,
+                        color: shading == Shading.semiFill
+                            ? color.withOpacity(0.5)
+                            : color,
                         width: 100,
                         height: 50,
                       )),
@@ -105,7 +115,9 @@ class ShapeWidget extends StatelessWidget {
             : ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Container(
-                  color: color,
+                  color: shading == Shading.semiFill
+                      ? color.withOpacity(0.5)
+                      : color,
                   width: 100,
                   height: 50,
                 ),

@@ -31,7 +31,4 @@ class CardColors {
   static Color red = Colors.red;
   static Color green = Colors.green;
   static Color blue = Colors.blue;
-  static Color redSemi = Colors.redAccent.shade100;
-  static Color greenSemi = Colors.greenAccent.shade200;
-  static Color blueSemi = Colors.blueAccent.shade100;
 }
