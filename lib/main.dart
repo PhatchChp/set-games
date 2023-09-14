@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SetGames',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
+        // colorSchemeSeed: Colors.blue,
+        // brightness: Brightness.light,
+
         useMaterial3: true,
       ),
       home: const ViewScreen(),

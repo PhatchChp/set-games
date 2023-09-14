@@ -11,7 +11,7 @@ class GamesCard {
 
   @override
   String toString() {
-    return 'Color: ${color}Shape: ${shape}amount: ${amount}shading:${shading}selected: $selected$hashCode';
+    return 'Shape: ${shape}amount: ${amount}shading:${shading}selected: $selected$hashCode';
   }
 }
 

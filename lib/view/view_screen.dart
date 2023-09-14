@@ -30,6 +30,14 @@ class _ViewScreenState extends State<ViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SetGames'),
+        leading: Center(child: Text('Set ${viewModel.setTotal()}')),
+        actions: [
+          StreamBuilder(
+              stream: viewModel.streamScore,
+              builder: (context, snapshot) {
+                return Center(child: Text('Score ${snapshot.data}'));
+              }),
+        ],
       ),
       body: StreamBuilder(
           stream: viewModel.stream,
@@ -37,6 +45,7 @@ class _ViewScreenState extends State<ViewScreen> {
             // print(snapshot.data);
             return _listCard(snapshot.data);
           }),
+      bottomNavigationBar: bottomNav(),
     );
   }
 
@@ -46,11 +55,11 @@ class _ViewScreenState extends State<ViewScreen> {
         : GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 0.71,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8),
-            padding: const EdgeInsets.all(5),
-            itemCount: 12,
+                childAspectRatio: 0.76,
+                crossAxisSpacing: 9,
+                mainAxisSpacing: 9),
+            padding: const EdgeInsets.all(9),
+            itemCount: viewModel.listStream.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
@@ -66,5 +75,26 @@ class _ViewScreenState extends State<ViewScreen> {
                 ),
               );
             });
+  }
+
+  Widget bottomNav() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: Color.fromARGB(255, 243, 243, 243),
+      ),
+      height: 80,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton.icon(
+              onPressed: () {
+                viewModel.addCard();
+              },
+              icon: const Icon(Icons.add, size: 20),
+              label: const Text('Card', style: TextStyle(fontSize: 18)))
+        ],
+      ),
+    );
   }
 }

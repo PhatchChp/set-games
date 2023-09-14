@@ -4,56 +4,109 @@ import 'package:setgame/model/deck.dart';
 import 'package:setgame/model/model.dart';
 
 class ViewModel {
-  final StreamController<List<GamesCard>> _streamController =
+// Stream Cards
+  final StreamController<List<GamesCard>> _streamControllerGameCard =
       StreamController();
+  Stream<List<GamesCard>> get stream => _streamControllerGameCard.stream;
 
-  Stream<List<GamesCard>> get stream => _streamController.stream;
+// จำนวน set ที่เหลือ
+  final StreamController<int> _streamControllerScore = StreamController();
+  Stream<int> get streamScore => _streamControllerScore.stream;
 
-  final List<GamesCard> cards = deck;
+  final List<GamesCard> allCards = deck.map((card) => card).toList();
 
-  final List<GamesCard> onSelect = [];
+  int score = 0;
+  List<GamesCard> onSelect = [];
+  List<GamesCard> listStream = [];
+
+  setTotal() {
+    int set = allCards.length ~/ 3;
+    return set;
+  }
+
+// VM Stream
 
   void addData() {
-    cards.shuffle();
-    _streamController.sink.add(cards);
+    allCards.shuffle();
+
+    for (int i = 0; i < 12; i++) {
+      listStream.add(allCards[i]);
+      allCards.remove(listStream[i]);
+    }
+    _streamControllerGameCard.sink.add(listStream);
+    _streamControllerScore.sink.add(setTotal());
+    _streamControllerScore.sink.add(score);
+
+    // print('AllCards : ${allCards.length}');
+    // print('ListStream : ${listStream.length}');
   }
 
   void dispose() {
-    _streamController.close();
+    _streamControllerGameCard.close();
+  }
+
+// เพิ่มการ์ด 3 ใบ
+  void addCard() {
+    allCards.shuffle();
+    for (int i = 0; i < 3; i++) {
+      listStream.add(allCards.removeAt(i));
+    }
+    _streamControllerGameCard.sink.add(listStream);
+    print('AllCards : ${allCards.length}');
+    print('ListStream : ${listStream.length}');
   }
 
 // กดการ์ด
   void isTap(GamesCard card) {
-    final cardTap = onSelect.contains(card);
-
+    // เช็คว่าการ์ดที่กด ใช่การ์ดใบเดิมมั้ย
+    final sameCard = onSelect.contains(card);
+    // ถ้าเลือกการ์ดยังไม่ครบ 3 ใบ และการ์ดนั้นยังไม่ถูกเลือก ให้เลือกการ์ดได้
     if (onSelect.length != 3 && card.selected != true) {
       card.selected = !card.selected;
       onSelect.add(card);
     }
-    if (cardTap) {
+
+    // ถ้ากดการ์ดใบเดิมแล้วซ้ำให้มันไม่ถูกเลือก
+    if (sameCard) {
       card.selected = false;
       onSelect.remove(card);
     }
 
-    cardSet();
+    // ถ้าการ์ดทั้ง 3 ใบเป็น set เอาการ์ดทั้งหมดออก + 1 คะแนน
+    if (cardSet() == true) {
+      for (GamesCard card in onSelect) {
+        listStream.remove(card);
+      }
+      score += 1;
+      onSelect = [];
+      addCard();
+    }
 
-    print(onSelect.length);
-    _streamController.sink.add(cards);
+    print('Onselect : ${onSelect.length}');
+    print('AllCards : ${allCards.length}');
+    print('ListStream : ${listStream.length}');
+
+    // _streamControllerTotalSet.sink.add(allcards.length ~/ 3);
+    _streamControllerGameCard.sink.add(listStream);
+    _streamControllerScore.sink.add(score);
   }
 
+// การ์ดทั้ง 3 ใบ ผ่านกติกาเซ็ท
   cardSet() {
     if (onSelect.length == 3) {
       if (checkColor() == true &&
           checkShape() == true &&
           checkAmount() == true &&
           checkShading() == true) {
-        print('Passsss');
+        print('Passsssss');
+        return true;
       } else {
         print('Faillllll');
         print('Color : ${checkColor()}');
         print('Shape : ${checkShape()}');
         print('Amount : ${checkAmount()}');
         print('Shading : ${checkShading()}');
+        return false;
       }
     }
   }

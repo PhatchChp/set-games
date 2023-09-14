@@ -23,8 +23,6 @@ class CardsWidget extends StatelessWidget {
             : Border.all(color: Colors.black, width: 4),
         borderRadius: BorderRadius.circular(20),
       ),
-      width: 112,
-      height: 184,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

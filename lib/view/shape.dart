@@ -19,8 +19,8 @@ class ShapeWidget extends StatelessWidget {
                   ClipPath(
                     clipper: TriangleShape(),
                     child: Container(
-                      width: 100,
-                      height: 50,
+                      width: 80,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: shading == Shading.semiFill
                             ? color.withOpacity(0.5)
@@ -31,8 +31,8 @@ class ShapeWidget extends StatelessWidget {
                   ClipPath(
                     clipper: TriangleShape(),
                     child: Container(
-                      width: 87,
-                      height: 45,
+                      width: 60,
+                      height: 32,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -46,8 +46,8 @@ class ShapeWidget extends StatelessWidget {
                   color: shading == Shading.semiFill
                       ? color.withOpacity(0.5)
                       : color,
-                  width: 100,
-                  height: 50,
+                  width: 80,
+                  height: 40,
                 ),
               );
       case Shape.diamonds:
@@ -58,8 +58,8 @@ class ShapeWidget extends StatelessWidget {
                   ClipPath(
                     clipper: DiamondShape(),
                     child: Container(
-                      width: 100,
-                      height: 50,
+                      width: 80,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: shading == Shading.semiFill
                             ? color.withOpacity(0.5)
@@ -70,8 +70,8 @@ class ShapeWidget extends StatelessWidget {
                   ClipPath(
                     clipper: DiamondShape(),
                     child: Container(
-                      width: 80,
-                      height: 40,
+                      width: 60,
+                      height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                       ),
@@ -85,8 +85,8 @@ class ShapeWidget extends StatelessWidget {
                   color: shading == Shading.semiFill
                       ? color.withOpacity(0.5)
                       : color,
-                  width: 100,
-                  height: 50,
+                  width: 80,
+                  height: 40,
                 ),
               );
       case Shape.capsule:
@@ -100,15 +100,15 @@ class ShapeWidget extends StatelessWidget {
                         color: shading == Shading.semiFill
                             ? color.withOpacity(0.5)
                             : color,
-                        width: 100,
-                        height: 50,
+                        width: 80,
+                        height: 40,
                       )),
                   ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
                         color: Colors.white,
-                        width: 90,
-                        height: 40,
+                        width: 70,
+                        height: 30,
                       )),
                 ],
               )
@@ -118,8 +118,8 @@ class ShapeWidget extends StatelessWidget {
                   color: shading == Shading.semiFill
                       ? color.withOpacity(0.5)
                       : color,
-                  width: 100,
-                  height: 50,
+                  width: 80,
+                  height: 40,
                 ),
               );
       default:
