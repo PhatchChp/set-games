@@ -3,8 +3,8 @@ import 'package:setgame/model/model.dart';
 import 'package:setgame/view/shape.dart';
 
 class CardsWidget extends StatelessWidget {
-  const CardsWidget(
-      this.color, this.shape, this.amount, this.shading, this.selected,
+  const CardsWidget(this.color, this.shape, this.amount, this.shading,
+      this.selected, this.show,
       {super.key});
 
   final Color color;
@@ -12,12 +12,15 @@ class CardsWidget extends StatelessWidget {
   final int amount;
   final Shading shading;
   final bool selected;
+  final bool show;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: selected ? Colors.yellowAccent.shade100 : Colors.grey.shade50,
+        color: selected || show
+            ? Colors.yellowAccent.shade100
+            : Colors.grey.shade50,
         border: selected
             ? Border.all(color: Colors.pink, width: 4)
             : Border.all(color: Colors.black, width: 4),

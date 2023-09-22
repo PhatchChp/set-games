@@ -16,6 +16,7 @@ class _ViewScreenState extends State<ViewScreen> {
   @override
   void initState() {
     viewModel.addData();
+    // viewModel.checkSet();
     super.initState();
   }
 
@@ -30,12 +31,28 @@ class _ViewScreenState extends State<ViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SetGames'),
-        leading: Center(child: Text('Set ${viewModel.setTotal()}')),
+        leading: Center(
+            child: Padding(
+          padding: const EdgeInsets.only(left: 18),
+          child: StreamBuilder(
+            stream: viewModel.streamSet,
+            builder: (context, snapshot) {
+              return Text(
+                'Set ${snapshot.data}',
+              );
+            },
+          ),
+        )),
+        leadingWidth: 80,
         actions: [
           StreamBuilder(
               stream: viewModel.streamScore,
               builder: (context, snapshot) {
-                return Center(child: Text('Score ${snapshot.data}'));
+                return Center(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 27),
+                  child: Text('Score ${snapshot.data}'),
+                ));
               }),
         ],
       ),
@@ -72,6 +89,7 @@ class _ViewScreenState extends State<ViewScreen> {
                   cards[index].amount,
                   cards[index].shading,
                   cards[index].selected,
+                  cards[index].show,
                 ),
               );
             });
@@ -81,7 +99,7 @@ class _ViewScreenState extends State<ViewScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: Color.fromARGB(255, 243, 243, 243),
+        color: const Color.fromARGB(255, 243, 243, 243),
       ),
       height: 80,
       child: Row(
@@ -89,12 +107,27 @@ class _ViewScreenState extends State<ViewScreen> {
         children: [
           ElevatedButton.icon(
               onPressed: () {
-                viewModel.addCard();
+                viewModel.showSet();
               },
-              icon: const Icon(Icons.add, size: 20),
-              label: const Text('Card', style: TextStyle(fontSize: 18)))
+              icon: const Icon(Icons.zoom_in, size: 20),
+              label: const Text('Found', style: TextStyle(fontSize: 18)))
         ],
       ),
     );
   }
+}
+
+Future gameOver(BuildContext context, int score) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: const Text('GameOver'),
+            content: Text('Your Score: ${score.toString()}'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ));
 }
