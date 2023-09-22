@@ -16,7 +16,7 @@ class _ViewScreenState extends State<ViewScreen> {
   @override
   void initState() {
     viewModel.addData();
-    // viewModel.checkSet();
+    viewModel.checkSet();
     super.initState();
   }
 

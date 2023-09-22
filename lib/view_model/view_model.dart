@@ -11,10 +11,11 @@ class ViewModel {
       StreamController();
   Stream<List<GamesCard>> get stream => _streamControllerGameCard.stream;
 
-// จำนวน set ที่เหลือ
+// จำนวน score
   final StreamController<int> _streamControllerScore = StreamController();
   Stream<int> get streamScore => _streamControllerScore.stream;
 
+// จำนวน set ที่เหลือ
   final StreamController<int> _streamControllerSet = StreamController();
   Stream<int> get streamSet => _streamControllerSet.stream;
 
@@ -24,24 +25,25 @@ class ViewModel {
   List<GamesCard> onSelect = [];
   List<GamesCard> listStream = [];
   bool show = false;
+  int count = 0;
 
   showSet() {
     int r = 3;
-
     show = true;
+    count++;
 
-    for (List<GamesCard> combination in combinations(listStream, r)) {
-      if (isCardSet(combination[0], combination[1], combination[2]) == true) {
-        if (show = true) {
-          combination[0].show = true;
-          combination[1].show = true;
-          combination[2].show = true;
+    if (count != 3) {
+      for (List<GamesCard> combination in combinations(listStream, r)) {
+        if (isCardSet(combination[0], combination[1], combination[2]) == true) {
+          if (show = true) {
+            combination[0].show = true;
+            combination[1].show = true;
+            combination[2].show = true;
+          }
+          break;
         }
-
-        break;
       }
     }
-
     _streamControllerGameCard.sink.add(listStream);
     _streamControllerScore.sink.add(score);
     _streamControllerSet.sink.add(countSet);
@@ -57,11 +59,12 @@ class ViewModel {
         break;
       }
     }
-    if (isSet != true) {
+    if (isSet == false) {
       addCard();
     }
-
     _streamControllerGameCard.sink.add(listStream);
+    _streamControllerScore.sink.add(score);
+    _streamControllerSet.sink.add(countSet);
   }
 
 // VM Stream InitState
@@ -94,9 +97,7 @@ class ViewModel {
 
 // จบเกมส์
   void endGame(BuildContext context) {
-    if (allCards.isEmpty) {
-      gameOver(context, score);
-    }
+    gameOver(context, score);
   }
 
 /*
@@ -155,18 +156,22 @@ class ViewModel {
 
         addCard();
         checkSet();
+      } else {
+        Future.delayed(const Duration(milliseconds: 700), () {
+          onSelect[0].selected = false;
+          onSelect[1].selected = false;
+          onSelect[2].selected = false;
+          onSelect = [];
+          _streamControllerGameCard.sink.add(listStream);
+        });
       }
-      return;
     }
-
     print('Onselect : ${onSelect.length}');
     print('AllCards : ${allCards.length}');
     print('ListStream : ${listStream.length}');
 
-    // _streamControllerTotalSet.sink.add(allcards.length ~/ 3);
     _streamControllerGameCard.sink.add(listStream);
     _streamControllerSet.sink.add(countSet);
-    // _streamControllerSetTotal.sink.add(setTotal());
     _streamControllerScore.sink.add(score);
   }
 
