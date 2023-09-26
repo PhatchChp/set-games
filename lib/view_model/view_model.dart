@@ -6,6 +6,8 @@ import 'package:setgame/model/model.dart';
 import 'package:setgame/view/view_screen.dart';
 
 class ViewModel {
+  late BuildContext context;
+
 // Stream Cards
   final StreamController<List<GamesCard>> _streamControllerGameCard =
       StreamController();
@@ -19,20 +21,30 @@ class ViewModel {
   final StreamController<int> _streamControllerSet = StreamController();
   Stream<int> get streamSet => _streamControllerSet.stream;
 
-  final List<GamesCard> allCards = deck.map((card) => card).toList();
+// ขอโอกาสใบ้ set 3 ครั้ง
+  final StreamController<int> _streamControllerFoundSet = StreamController();
+  Stream<int> get streamFoundSet => _streamControllerFoundSet.stream;
+
+  List<GamesCard> allCards = deck.map((card) => card).toList();
   int score = 0;
   int countSet = 0;
+  int foundSet = 0;
   List<GamesCard> onSelect = [];
   List<GamesCard> listStream = [];
   bool show = false;
-  int count = 0;
+  bool waitDelay = false;
 
   showSet() {
     int r = 3;
     show = true;
-    count++;
+    foundSet++;
 
-    if (count != 3) {
+    if (foundSet > 3) {
+      foundSet = 3;
+      return;
+    }
+
+    if (foundSet <= 3) {
       for (List<GamesCard> combination in combinations(listStream, r)) {
         if (isCardSet(combination[0], combination[1], combination[2]) == true) {
           if (show = true) {
@@ -47,9 +59,10 @@ class ViewModel {
     _streamControllerGameCard.sink.add(listStream);
     _streamControllerScore.sink.add(score);
     _streamControllerSet.sink.add(countSet);
+    _streamControllerFoundSet.sink.add(foundSet);
   }
 
-  checkSet() {
+  checkSet(BuildContext context) {
     int r = 3;
     bool isSet = false;
 
@@ -60,7 +73,7 @@ class ViewModel {
       }
     }
     if (isSet == false) {
-      addCard();
+      addCard(context);
     }
     _streamControllerGameCard.sink.add(listStream);
     _streamControllerScore.sink.add(score);
@@ -76,28 +89,51 @@ class ViewModel {
     _streamControllerGameCard.sink.add(listStream);
     _streamControllerScore.sink.add(score);
     _streamControllerSet.sink.add(countSet);
+    _streamControllerFoundSet.sink.add(foundSet);
   }
 
 // stream close
   void dispose() {
     _streamControllerGameCard.close();
+    _streamControllerScore.close();
+    _streamControllerSet.close();
+    _streamControllerFoundSet.close();
   }
 
 // เพิ่มการ์ด 3 ใบ ถ้าการ์ดหมดสำรับให้จบเกมส์ หรือ จนกว่าจะไม่มีการ์ดให้ set ให้จบเกมส์
-  void addCard() {
+  void addCard(BuildContext context) {
     allCards.shuffle();
 
     if (allCards.isNotEmpty) {
       for (int i = 0; i <= 2; i++) {
         listStream.add(allCards.removeAt(0));
       }
+    } else {
+      endGame(context);
     }
     _streamControllerGameCard.sink.add(listStream);
   }
 
 // จบเกมส์
   void endGame(BuildContext context) {
-    gameOver(context, score);
+    if (showSet() != true && allCards.isEmpty) {
+      gameOver(context, score);
+      score = 0;
+      countSet = 0;
+      foundSet = 0;
+      show = false;
+
+      onSelect.clear();
+      listStream.clear();
+      allCards.clear();
+
+      allCards = deck.map((card) => card).toList();
+      for (GamesCard card in allCards) {
+        card.selected = false;
+        card.show = false;
+      }
+      addData();
+    }
   }
 
 /*
@@ -107,7 +143,6 @@ class ViewModel {
   cards in board 12 -> cards = 12
   1 set ต้องมี 3 ใบ --> r = 3 ตรวจสอบ 3 ใบว่าเข้าเงื่อนไขป่าว
 */
-
   combinations(List<GamesCard> cards, int r) {
     List<List<GamesCard>> result = [];
 
@@ -129,50 +164,66 @@ class ViewModel {
   }
 
 // กดการ์ด
-  void isTap(GamesCard card) {
+  void isTap(GamesCard card, BuildContext context) {
     // เช็คว่าการ์ดที่กด ใช่การ์ดใบเดิมมั้ย
     final sameCard = onSelect.contains(card);
-    // ถ้าเลือกการ์ดยังไม่ครบ 3 ใบ และการ์ดนั้นยังไม่ถูกเลือก ให้เลือกการ์ดได้
-    if (onSelect.length != 3 && card.selected != true) {
-      card.selected = !card.selected;
-      onSelect.add(card);
-    }
 
-    // ถ้ากดการ์ดใบเดิมแล้วซ้ำให้มันไม่ถูกเลือก
-    if (sameCard) {
-      card.selected = false;
-      onSelect.remove(card);
-    }
-
-    // ถ้าการ์ดทั้ง 3 ใบเป็น set เอาการ์ดทั้งหมดออกและ + 1 คะแนน
-    if (onSelect.length >= 3) {
-      if (isCardSet(onSelect[0], onSelect[1], onSelect[2]) == true) {
-        for (GamesCard card in onSelect) {
-          listStream.remove(card);
-        }
-        score += 1;
-        countSet += 1;
-        onSelect = [];
-
-        addCard();
-        checkSet();
-      } else {
-        Future.delayed(const Duration(milliseconds: 700), () {
-          onSelect[0].selected = false;
-          onSelect[1].selected = false;
-          onSelect[2].selected = false;
-          onSelect = [];
-          _streamControllerGameCard.sink.add(listStream);
-        });
+    if (waitDelay != true) {
+      // ถ้าเลือกการ์ดยังไม่ครบ 3 ใบ และการ์ดนั้นยังไม่ถูกเลือก ให้เลือกการ์ดได้
+      if (onSelect.length != 3 && card.selected != true && waitDelay != true) {
+        card.selected = !card.selected;
+        onSelect.add(card);
       }
-    }
-    print('Onselect : ${onSelect.length}');
-    print('AllCards : ${allCards.length}');
-    print('ListStream : ${listStream.length}');
 
-    _streamControllerGameCard.sink.add(listStream);
-    _streamControllerSet.sink.add(countSet);
-    _streamControllerScore.sink.add(score);
+      // ถ้ากดการ์ดใบเดิมแล้วซ้ำให้มันไม่ถูกเลือก
+      if (sameCard && waitDelay != true) {
+        card.selected = false;
+        onSelect.remove(card);
+      }
+
+// ถ้าการ์ดทั้ง 3 ใบเป็น set เอาการ์ดทั้งหมดออกและ + 1 คะแนน
+      if (onSelect.length >= 3) {
+        waitDelay = true;
+        checkSelect(context);
+      }
+
+      print('Onselect : ${onSelect.length}');
+      print('AllCards : ${allCards.length}');
+      print('ListStream : ${listStream.length}');
+
+      _streamControllerGameCard.sink.add(listStream);
+      _streamControllerSet.sink.add(countSet);
+      _streamControllerScore.sink.add(score);
+      _streamControllerFoundSet.sink.add(foundSet);
+    }
+  }
+
+// เช็คการ์ดที่เลือกทั้ง 3 ใบ
+  void checkSelect(BuildContext context) {
+    if (isCardSet(onSelect[0], onSelect[1], onSelect[2]) == true) {
+      for (GamesCard card in onSelect) {
+        listStream.remove(card);
+      }
+      score += 1;
+      countSet += 1;
+      onSelect = [];
+
+      addCard(context);
+      checkSet(context); // findSet in board
+
+      waitDelay = false;
+      _streamControllerGameCard.sink.add(listStream);
+    } else {
+      Future.delayed(const Duration(milliseconds: 700), () {
+        onSelect[0].selected = false;
+        onSelect[1].selected = false;
+        onSelect[2].selected = false;
+
+        onSelect = [];
+        waitDelay = false;
+        _streamControllerGameCard.sink.add(listStream);
+      });
+    }
   }
 
 // เช็คว่า การ์ดทั้ง 3 ใบ ผ่านกติกาเซ็ท
@@ -233,80 +284,4 @@ class ViewModel {
     }
     return false;
   }
-
-// การ์ดทั้ง 3 ใบ ผ่านกติกาเซ็ท
-  // cardSet() {
-  //   if (onSelect.length == 3) {
-  //     if (checkColor() == true &&
-  //         checkShape() == true &&
-  //         checkAmount() == true &&
-  //         checkShading() == true) {
-  //       print('Passsssss');
-  //       return true;
-  //     } else {
-  //       print('Faillllll');
-  //       print('Color : ${checkColor()}');
-  //       print('Shape : ${checkShape()}');
-  //       print('Amount : ${checkAmount()}');
-  //       print('Shading : ${checkShading()}');
-  //       return false;
-  //     }
-  //   }
-  // }
-
-// // เช็คสี
-//   checkColor() {
-//     if (onSelect[0].color == onSelect[1].color &&
-//         onSelect[1].color == onSelect[2].color) {
-//       return true;
-//     } else if (onSelect[0].color != onSelect[1].color &&
-//         onSelect[1].color != onSelect[2].color &&
-//         onSelect[2].color != onSelect[0].color) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-
-// // เช็ครูปทรง
-//   checkShape() {
-//     if (onSelect[0].shape == onSelect[1].shape &&
-//         onSelect[1].shape == onSelect[2].shape) {
-//       return true;
-//     } else if (onSelect[0].shape != onSelect[1].shape &&
-//         onSelect[1].shape != onSelect[2].shape &&
-//         onSelect[2].shape != onSelect[0].shape) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-
-//   // เช็คจำนวน
-//   checkAmount() {
-//     if (onSelect[0].amount == onSelect[1].amount &&
-//         onSelect[1].amount == onSelect[2].amount) {
-//       return true;
-//     } else if (onSelect[0].amount != onSelect[1].amount &&
-//         onSelect[1].amount != onSelect[2].amount &&
-//         onSelect[2].amount != onSelect[0].amount) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-
-//   // เช็คเฉดสี
-//   checkShading() {
-//     if (onSelect[0].shading == onSelect[1].shading &&
-//         onSelect[1].shading == onSelect[2].shading) {
-//       return true;
-//     } else if (onSelect[0].shading != onSelect[1].shading &&
-//         onSelect[1].shading != onSelect[2].shading &&
-//         onSelect[2].shading != onSelect[0].shading) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
 }

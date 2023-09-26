@@ -16,7 +16,7 @@ class _ViewScreenState extends State<ViewScreen> {
   @override
   void initState() {
     viewModel.addData();
-    viewModel.checkSet();
+    viewModel.checkSet(context);
     super.initState();
   }
 
@@ -28,6 +28,7 @@ class _ViewScreenState extends State<ViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // viewModel.context = context;
     return Scaffold(
       appBar: AppBar(
         title: const Text('SetGames'),
@@ -62,7 +63,10 @@ class _ViewScreenState extends State<ViewScreen> {
             // print(snapshot.data);
             return _listCard(snapshot.data);
           }),
-      bottomNavigationBar: bottomNav(),
+      bottomNavigationBar: StreamBuilder(
+        stream: viewModel.streamFoundSet,
+        builder: (context, snapshot) => bottomNav(snapshot.data),
+      ),
     );
   }
 
@@ -80,8 +84,7 @@ class _ViewScreenState extends State<ViewScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  viewModel.isTap(cards[index]);
-                  print(cards[index]);
+                  viewModel.isTap(cards[index], context);
                 },
                 child: CardsWidget(
                   cards[index].color,
@@ -95,7 +98,7 @@ class _ViewScreenState extends State<ViewScreen> {
             });
   }
 
-  Widget bottomNav() {
+  Widget bottomNav(int? foundSet) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
@@ -110,7 +113,8 @@ class _ViewScreenState extends State<ViewScreen> {
                 viewModel.showSet();
               },
               icon: const Icon(Icons.zoom_in, size: 20),
-              label: const Text('Found', style: TextStyle(fontSize: 18)))
+              label: Text('Found $foundSet / 3',
+                  style: const TextStyle(fontSize: 18)))
         ],
       ),
     );
@@ -122,7 +126,7 @@ Future gameOver(BuildContext context, int score) {
       context: context,
       builder: (BuildContext context) => AlertDialog(
             title: const Text('GameOver'),
-            content: Text('Your Score: ${score.toString()}'),
+            content: Text('Your Score: $score'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
