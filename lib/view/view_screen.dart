@@ -74,11 +74,13 @@ class _ViewScreenState extends State<ViewScreen> {
     return cards == null
         ? Container()
         : GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.76,
-                crossAxisSpacing: 9,
-                mainAxisSpacing: 9),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: viewModel.listStream.length > 12 ? 0.95 : 0.76,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 9,
+              // mainAxisExtent: 135,
+            ),
             padding: const EdgeInsets.all(9),
             itemCount: viewModel.listStream.length,
             itemBuilder: (context, index) {

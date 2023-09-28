@@ -13,113 +13,125 @@ class ShapeWidget extends StatelessWidget {
     switch (shape) {
       case Shape.triangle:
         return shading == Shading.transparant
-            ? Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  ClipPath(
-                    clipper: TriangleShape(),
-                    child: Container(
-                      width: 80,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: shading == Shading.semiFill
-                            ? color.withOpacity(0.5)
-                            : color,
+            ? SizedBox(
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    ClipPath(
+                      clipper: TriangleShape(),
+                      child: Container(
+                        width: 70,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: shading == Shading.semiFill
+                              ? color.withOpacity(0.5)
+                              : color,
+                        ),
                       ),
                     ),
-                  ),
-                  ClipPath(
-                    clipper: TriangleShape(),
-                    child: Container(
-                      width: 60,
-                      height: 32,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                    ClipPath(
+                      clipper: TriangleShape(),
+                      child: Container(
+                        width: 50,
+                        height: 22,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
-            : ClipPath(
-                clipper: TriangleShape(),
-                child: Container(
-                  color: shading == Shading.semiFill
-                      ? color.withOpacity(0.5)
-                      : color,
-                  width: 80,
-                  height: 40,
+            : SizedBox(
+                child: ClipPath(
+                  clipper: TriangleShape(),
+                  child: Container(
+                    color: shading == Shading.semiFill
+                        ? color.withOpacity(0.5)
+                        : color,
+                    width: 70,
+                    height: 30,
+                  ),
                 ),
               );
       case Shape.diamonds:
         return shading == Shading.transparant
-            ? Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  ClipPath(
-                    clipper: DiamondShape(),
-                    child: Container(
-                      width: 80,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: shading == Shading.semiFill
-                            ? color.withOpacity(0.5)
-                            : color,
+            ? SizedBox(
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    ClipPath(
+                      clipper: DiamondShape(),
+                      child: Container(
+                        width: 70,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: shading == Shading.semiFill
+                              ? color.withOpacity(0.5)
+                              : color,
+                        ),
                       ),
                     ),
-                  ),
-                  ClipPath(
-                    clipper: DiamondShape(),
-                    child: Container(
-                      width: 60,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                    ClipPath(
+                      clipper: DiamondShape(),
+                      child: Container(
+                        width: 50,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
-            : ClipPath(
-                clipper: DiamondShape(),
-                child: Container(
-                  color: shading == Shading.semiFill
-                      ? color.withOpacity(0.5)
-                      : color,
-                  width: 80,
-                  height: 40,
+            : SizedBox(
+                child: ClipPath(
+                  clipper: DiamondShape(),
+                  child: Container(
+                    color: shading == Shading.semiFill
+                        ? color.withOpacity(0.5)
+                        : color,
+                    width: 70,
+                    height: 30,
+                  ),
                 ),
               );
       case Shape.capsule:
         return shading == Shading.transparant
-            ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        color: shading == Shading.semiFill
-                            ? color.withOpacity(0.5)
-                            : color,
-                        width: 80,
-                        height: 40,
-                      )),
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        color: Colors.white,
-                        width: 70,
-                        height: 30,
-                      )),
-                ],
+            ? SizedBox(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Container(
+                          color: shading == Shading.semiFill
+                              ? color.withOpacity(0.5)
+                              : color,
+                          width: 70,
+                          height: 30,
+                        )),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Container(
+                          color: Colors.white,
+                          width: 60,
+                          height: 20,
+                        )),
+                  ],
+                ),
               )
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Container(
-                  color: shading == Shading.semiFill
-                      ? color.withOpacity(0.5)
-                      : color,
-                  width: 80,
-                  height: 40,
+            : SizedBox(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Container(
+                    color: shading == Shading.semiFill
+                        ? color.withOpacity(0.5)
+                        : color,
+                    width: 70,
+                    height: 30,
+                  ),
                 ),
               );
       default:
